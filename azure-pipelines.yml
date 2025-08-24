@@ -1,3 +1,7 @@
 pool: MyAgentPool
+- task: DotNetCoreCLI@2
+  inputs:
+    azureSubscription: 'BWNACS Base Subscription(9c1f43e2-5c4a-4e82-af0c-cf62266135a8)'
+    command: 'build'
 steps:
 - bash: echo hello world
