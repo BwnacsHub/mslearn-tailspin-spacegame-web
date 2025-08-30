@@ -7,7 +7,7 @@ trigger:
     - docs/*  # exclude the docs folder
 
 pool:
-  vmImage: 'ubuntu-20.04'
+  vmImage: 'Ubuntu2404'
   demands:
   - npm
 
@@ -67,4 +67,5 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
+
   condition: succeeded()
