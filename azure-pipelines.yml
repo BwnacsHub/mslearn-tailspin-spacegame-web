@@ -1,5 +1,10 @@
 trigger:
-- '*'
+  branches:
+    include:
+    - '*'     # build all branches
+  paths:
+    exclude:
+    - docs/*  # exclude the docs folder
 
 pool:
   vmImage: 'ubuntu-20.04'
@@ -12,6 +17,12 @@ variables:
   dotnetSdkVersion: '6.x'
 
 steps:
+
+- task: DotNetCoreCLI@2
+  inputs:
+    azureSubscription: 'BWNACS Base Subscription(9c1f43e2-5c4a-4e82-af0c-cf62266135a8)'
+    command: 'build'
+
 - task: UseDotNet@2
   displayName: 'Use .NET SDK $(dotnetSdkVersion)'
   inputs:
