@@ -11,6 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  pipelineTestProject: 'Tailspin.SpaceGame.Web.Models'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
   dotnetSdkVersion: '8.x'
 
@@ -46,14 +47,21 @@ steps:
   displayName: 'Write build info'
   workingDirectory: $(wwwrootDir)
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@1
+  displayName: 'Restore project dependencies'
+
+- task: DotNetCoreCLI@1
   displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
+
+- task: NuGetCommand@2
+  displayName: 'Restore project custgom dependencies'
+  inputs:
     feedsToUse: 'select'
     restoreSolution: '**/*.sln'    
-    vstsFeed: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'
+    vstsFeed: '$(pipelineTestProject)/Tailspin.SpaceGame.Web.Models'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
