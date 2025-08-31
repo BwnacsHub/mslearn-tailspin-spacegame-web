@@ -5,7 +5,7 @@ trigger:
     - docs/*  # exclude the docs folder
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-20.04'
   demands:
   - npm
 
@@ -49,15 +49,12 @@ steps:
 
 - task: DotNetCoreCLI@1
   displayName: 'Restore project dependencies'
-
-- task: DotNetCoreCLI@1
-  displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
 
 - task: NuGetCommand@2
-  displayName: 'Restore project custgom dependencies'
+  displayName: 'Restore project custgom dependencies $(pipelineTestProject)'
   inputs:
     feedsToUse: 'select'
     restoreSolution: '**/*.sln'    
