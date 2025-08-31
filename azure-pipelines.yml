@@ -11,7 +11,6 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  artifactProject: 'This is a test'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
   dotnetSdkVersion: '8.x'
 
@@ -27,9 +26,10 @@ steps:
   inputs:
     version: '$(dotnetSdkVersion)'
 
-- task: NuGetToolInstaller@0
+- task: NuGetToolInstaller@1
+  displayName: 'Use NuGet 6.x'
   inputs:
-    versionSpec: '6.14.0'
+    versionSpec: '6.x'
 
 - task: Npm@1
   displayName: 'Run npm install'
@@ -46,11 +46,13 @@ steps:
   displayName: 'Write build info'
   workingDirectory: $(wwwrootDir)
 
-- task: DownloadPipelineArtifact@2
+- task: NuGetCommand@2
+  displayName: 'Restore project dependencies'
   inputs:
-    artifact: Tailspin.SpaceGame.Web.Models
-    patterns: '**/*.nupkg'
-    path: $(Build.SourcesDirectory)/bin
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
