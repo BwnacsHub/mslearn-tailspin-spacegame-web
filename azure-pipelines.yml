@@ -26,6 +26,11 @@ steps:
   inputs:
     version: '$(dotnetSdkVersion)'
 
+- task: NuGetToolInstaller@1
+  displayName: 'Use NuGet 6.x'
+  inputs:
+    versionSpec: '6.14.0'
+
 - task: Npm@1
   displayName: 'Run npm install'
   inputs:
@@ -41,13 +46,14 @@ steps:
   displayName: 'Write build info'
   workingDirectory: $(wwwrootDir)
 
-- task: DotNetCoreCLI@2
+- task: NuGetCommand@2
   displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
-    feedsToUse: 'select'    
-    vstsFeed: 'Space Game - web - Dependencies/Tailspin.SpaceGame.Web.Models'
+    feedsToUse: 'select'
+    restoreSolution: '**/*.sln'    
+    vstsFeed: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
