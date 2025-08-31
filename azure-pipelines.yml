@@ -53,13 +53,15 @@ steps:
     command: 'restore'
     projects: '**/*.csproj'
 
-- task: NuGetCommand@2
-  displayName: 'Restore project custgom dependencies $(pipelineTestProject)'
-  inputs:
-    feedsToUse: 'select'
-    restoreSolution: '**/*.sln'    
-    vstsFeed: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'
 
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: 'ce975a81-fe81-4d2c-84d0-a9963861f9ff/76de3366-729a-4419-a516-c9ccac617307'
+    includeNuGetOrg: true
+    
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
   inputs:
