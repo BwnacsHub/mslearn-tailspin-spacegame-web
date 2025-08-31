@@ -1,30 +1,32 @@
 trigger:
-- '*'
+  branches:
+    include:
+    - '*'     # build all branches
+  paths:
+    exclude:
+    - docs/*  # exclude the docs folder
 
 pool:
   vmImage: 'ubuntu-latest'
   demands:
   - npm
-  
-  variables:
-    buildConfiguration: 'Release'
-    wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-    dotnetSdkVersion: '8.x'
+
+variables:
+  buildConfiguration: 'Release'
+  wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
+  dotnetSdkVersion: '8.x'
 
 steps:
+
 - task: DotNetCoreCLI@2
   inputs:
     azureSubscription: 'BWNACS Base Subscription(9c1f43e2-5c4a-4e82-af0c-cf62266135a8)'
     command: 'build'
-    
+
 - task: UseDotNet@2
   displayName: 'Use .NET SDK $(dotnetSdkVersion)'
   inputs:
     version: '$(dotnetSdkVersion)'
-
-- task: NuGetToolInstaller@0
-  inputs:
-    versionSpec: '6.14.0'
 
 - task: Npm@1
   displayName: 'Run npm install'
@@ -41,13 +43,11 @@ steps:
   displayName: 'Write build info'
   workingDirectory: $(wwwrootDir)
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
-    restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
-    vstsFeed: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'
+    projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
@@ -67,4 +67,5 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
+
   condition: succeeded()
