@@ -46,6 +46,8 @@ steps:
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
+    feedsToUse: 'select'    
+    vstsFeed: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
@@ -67,4 +69,3 @@ steps:
   displayName: 'Publish Artifact: drop'
 
   condition: succeeded()
-  
