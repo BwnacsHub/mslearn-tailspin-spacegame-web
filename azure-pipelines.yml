@@ -6,9 +6,10 @@ pool:
   demands:
   - npm
   
-variables:
-  buildConfiguration: 'Release'
-  dotnetSdkVersion: '8.x'
+  variables:
+    buildConfiguration: 'Release'
+    wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
+    dotnetSdkVersion: '8.x'
 
 steps:
 - task: DotNetCoreCLI@2
