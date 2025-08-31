@@ -46,13 +46,11 @@ steps:
   displayName: 'Write build info'
   workingDirectory: $(wwwrootDir)
 
-- task: NuGetCommand@2
-  displayName: 'Restore project dependencies'
+- task: DownloadPipelineArtifact@2
   inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
-    vstsFeed: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'
+    artifact: Tailspin.SpaceGame.Web.Models
+    patterns: '**/*.nupkg'
+    path: $(Build.SourcesDirectory)/bin
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
