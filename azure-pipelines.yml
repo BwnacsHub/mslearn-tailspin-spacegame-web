@@ -2,16 +2,20 @@ trigger:
 - '*'
 
 pool:
-  vmImage: 'ubuntu-20.04'
+  vmImage: 'ubuntu-22.04'
   demands:
   - npm
-
+  
 variables:
   buildConfiguration: 'Release'
-  wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-  dotnetSdkVersion: '6.x'
+  dotnetSdkVersion: '8.x'
 
 steps:
+- task: DotNetCoreCLI@2
+  inputs:
+    azureSubscription: 'BWNACS Base Subscription(9c1f43e2-5c4a-4e82-af0c-cf62266135a8)'
+    command: 'build'
+    
 - task: UseDotNet@2
   displayName: 'Use .NET SDK $(dotnetSdkVersion)'
   inputs:
@@ -35,6 +39,14 @@ steps:
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
   workingDirectory: $(wwwrootDir)
+
+- task: NuGetCommand@2
+  displayName: 'Restore project dependencies'
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
