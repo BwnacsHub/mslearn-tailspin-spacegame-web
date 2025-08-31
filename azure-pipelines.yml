@@ -14,7 +14,7 @@ variables:
   artifactProject: 'This is a test'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
   dotnetSdkVersion: '8.x'
-  
+
 steps:
 
 - task: DotNetCoreCLI@2
@@ -29,7 +29,7 @@ steps:
 
 - task: NuGetToolInstaller@0
   inputs:
-    versionSpec: '5.9.1'
+    versionSpec: '6.14.0'
 
 - task: Npm@1
   displayName: 'Run npm install'
