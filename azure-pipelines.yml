@@ -1,7 +1,5 @@
 trigger:
-  branches:
-    include:
-    - '*'     # build all branches
+
   paths:
     exclude:
     - docs/*  # exclude the docs folder
@@ -13,6 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  artifactProject: 'This is a test'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
   dotnetSdkVersion: '8.x'
 
@@ -39,7 +38,7 @@ steps:
     command: 'restore'
     restoreSolution: '**/*.sln'
     feedsToUse: 'select'
-    vstsFeed: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'
+    vstsFeed: '$(artifactProject)/Tailspin.SpaceGame.Web.Models'
 
 - script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
   displayName: 'Compile Sass assets'
