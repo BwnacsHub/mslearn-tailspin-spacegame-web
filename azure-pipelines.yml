@@ -27,11 +27,6 @@ steps:
     version: '$(dotnetSdkVersion)'
     includePreviewVersions: true
 
-- task: DownloadGitHubNugetPackage@1
-  inputs:
-    packageName: 'Tailspin.SpaceGame.Web.Models'
-    version: '1.1.2-CI-20250901-011354'
-
 - task: Npm@1
   displayName: 'Run npm install'
   inputs:
@@ -59,7 +54,7 @@ steps:
     command: 'restore'
     restoreSolution: '**/*.sln'
     feedsToUse: 'select'
-    vstsFeed: '51cee189-8b84-4e15-a2a2-e0dbf99a4b15'
+    vstsFeed: 'a6399b98-04d8-42f6-852f-c4669a1d2f81'
     disableParallelProcessing: true
 
 - task: DotNetCoreCLI@2
