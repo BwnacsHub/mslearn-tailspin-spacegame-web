@@ -21,12 +21,16 @@ steps:
     azureSubscription: 'BWNACS Base Subscription(9c1f43e2-5c4a-4e82-af0c-cf62266135a8)'
     command: 'build'
 
-
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'    
     version: '$(dotnetSdkVersion)'
     includePreviewVersions: true
+
+- task: DownloadGitHubNugetPackage@1
+  inputs:
+    packageName: 'Tailspin.SpaceGame.Web.Models'
+    version: '1.1.2-CI-20250901-011354'
 
 - task: Npm@1
   displayName: 'Run npm install'
