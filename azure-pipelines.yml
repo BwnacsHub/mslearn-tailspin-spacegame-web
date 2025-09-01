@@ -5,13 +5,12 @@ trigger:
     - docs/*  # exclude the docs folder
 
 pool:
-  vmImage: 'ubuntu-22.04'
+  vmImage: 'ubuntu-latest'
   demands:
   - npm
 
 variables:
   buildConfiguration: 'Release'
-  pipelineTestProject: 'Tailspin.SpaceGame.Web.Models'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
   dotnetSdkVersion: '8.x'
 
@@ -47,13 +46,6 @@ steps:
   displayName: 'Write build info'
   workingDirectory: $(wwwrootDir)
 
-- task: DotNetCoreCLI@2
-  displayName: 'Restore project dependencies'
-  inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
-
-
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
@@ -61,6 +53,12 @@ steps:
     feedsToUse: 'select'
     vstsFeed: 'ce975a81-fe81-4d2c-84d0-a9963861f9ff/76de3366-729a-4419-a516-c9ccac617307'
     includeNuGetOrg: false
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore project dependencies'
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
