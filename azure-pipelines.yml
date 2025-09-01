@@ -55,7 +55,7 @@ steps:
     command: 'restore'
     restoreSolution: '**/*.sln'
     feedsToUse: 'select'
-    vstsFeed: 'ce975a81-fe81-4d2c-84d0-a9963861f9ff/76de3366-729a-4419-a516-c9ccac617307'
+    vstsFeed: '51cee189-8b84-4e15-a2a2-e0dbf99a4b15'
     disableParallelProcessing: true
 
 - task: DotNetCoreCLI@2
